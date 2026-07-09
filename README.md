@@ -71,12 +71,31 @@
 
 Поля, которые пока подставлены как `data-*` плейсхолдеры:
 
-- `data-phone` в `.sticker`
-- `data-email` в `.sticker`
-- `data-instagram` в `.sticker`
-- `data-price="family|kids|pregnancy"` в билетах услуг
-- `data-review="1|2|3"`, `data-name="1|2|3"`, `data-date="1|2|3"` в открытках отзывов
+- ~~`data-phone` в `.sticker`~~ ✅ обновлено: `+375 44 538 34 06`
+- ~~`data-email` в `.sticker`~~ ✅ обновлено: `nadya124@inbox.ru`
+- ~~`data-instagram` в `.sticker`~~ ✅ обновлено: `instagram.com/nadezhda.b` → `instagram.com/nadya.bantsarevich`
+- `data-price="family|kids|pregnancy"` в билетах услуг (прочерки)
+- `data-review="1|2|3"`, `data-name="1|2|3"`, `data-date="1|2|3"` в открытках отзывов (плейсхолдеры)
 - Полный био в `index.html` (секция `#about`) — сейчас короткая заготовка
+
+## Статус формы
+
+Форма-открытка подключена к [Formspree](https://formspree.io) в режиме **заглушки**:
+адрес `action` указан как `https://formspree.io/f/your-form-id`, скрипт видит
+`your-form-id` и не отправляет письмо, а только логирует данные в консоль
+(анимация «письмо улетает» при этом срабатывает).
+
+**Чтобы активировать отправку:**
+1. Зарегистрироваться на [formspree.io](https://formspree.io) (бесплатно до 50 писем/мес).
+2. Указать `nadya124@inbox.ru` как email получателя.
+3. Заменить `your-form-id` в `index.html:485` на свой ID (часть URL после `/f/`).
+4. Опционально: включить reCAPTCHA в личном кабинете Formspree (вкладка формы → «Spam protection»).
+
+## Доступность
+
+Автопрокрутка отзывов уважает системную настройку `prefers-reduced-motion`:
+у пользователей с включённой опцией «уменьшить движение» таймер не запускается,
+открытки остаются на месте. Кнопки «←»/«→» для ручного листания работают всегда.
 
 ## Отличия от v1
 
