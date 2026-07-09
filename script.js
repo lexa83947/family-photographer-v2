@@ -152,12 +152,17 @@
     if (prevBtn) prevBtn.addEventListener('click', () => goTo(idx - 1));
     if (nextBtn) nextBtn.addEventListener('click', () => goTo(idx + 1));
 
-    let timer = setInterval(() => goTo(idx + 1), 7000);
-    slider.addEventListener('mouseenter', () => clearInterval(timer));
-    slider.addEventListener('mouseleave', () => {
-      clearInterval(timer);
+    // автопрокрутка: уважаем prefers-reduced-motion (доступность)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timer = null;
+    if (!prefersReducedMotion) {
       timer = setInterval(() => goTo(idx + 1), 7000);
-    });
+      slider.addEventListener('mouseenter', () => clearInterval(timer));
+      slider.addEventListener('mouseleave', () => {
+        clearInterval(timer);
+        timer = setInterval(() => goTo(idx + 1), 7000);
+      });
+    }
   }
 
   /* ---------------------------------------
@@ -165,10 +170,25 @@
   --------------------------------------- */
   const form = document.querySelector('[data-form]');
   if (form) {
+    const action = (form.getAttribute('action') || '').trim();
+    const hasRealEndpoint = /^https?:\/\//i.test(action)
+      && !action.includes('your-form-id');
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
-      console.log('Письмо отправлено:', data);
+
+      if (hasRealEndpoint) {
+        // реальная отправка на внешний endpoint (Formspree, Getform, свой бэкенд)
+        fetch(action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form),
+        }).catch((err) => console.error('Ошибка отправки:', err));
+      } else {
+        // endpoint ещё не настроен — оставляем заглушку с логом
+        console.log('Письмо отправлено (заглушка, укажите action):', data);
+      }
 
       form.classList.add('is-sent');
       // создаём «ответ» — маленькое письмо, прилетающее сверху
