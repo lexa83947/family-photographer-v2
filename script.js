@@ -285,11 +285,9 @@
         if (notify && notify.ok) {
           let extra = '';
           if (clientReply) {
-            if (clientReply.ok) {
-              extra = ' Бот написал вам приветствие в Telegram.';
-            } else {
-              extra = ' Бот не смог вам написать — скорее всего, вы не открыли @NadyaFamilyPhotoBot и не нажали Start. Это можно сделать в любой момент.';
-            }
+            extra = clientReply.ok
+              ? ' Бот написал вам в Telegram.'
+              : ' Откройте @NadyaFamilyPhotoBot и нажмите Start, чтобы бот смог ответить.';
           }
           showReply('Спасибо! ✿', 'Я&nbsp;свяжусь с&nbsp;вами в&nbsp;течение дня.' + extra);
           form.reset();
