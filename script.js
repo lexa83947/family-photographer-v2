@@ -199,27 +199,74 @@
       }, 30000);
     };
 
-    const sendToTelegram = async (data) => {
-      const text = [
-        '✿ Новая заявка с сайта',
-        '',
-        `Имя: ${data.name || '—'}`,
-        `Контакт: ${data.contact || '—'}`,
-        `Тип съёмки: ${data.type || '—'}`,
-        `О себе: ${data.about || '—'}`,
-      ].join('\n');
+    // Сообщение, которое бот отправляет клиенту в Telegram
+    // (если клиент указал свой @username в форме).
+    // Чтобы поменять — отредактируйте текст ниже.
+    const CLIENT_GREETING = 'Привет! ✿ Я получила вашу заявку с сайта. ' +
+      'Скоро напишу и мы обсудим детали съёмки. ' +
+      'А пока — можно посмотреть работы в инстаграме: @nadya.bantsarevich';
 
-      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    // Нормализовать @username → chat_id (через getChat).
+    // Telegram не даёт прямого «username → chat_id», но getChat работает.
+    const resolveUsernameToChatId = async (username) => {
+      const clean = username.replace(/^@/, '').trim();
+      if (!clean) return null;
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getChat`;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text,
-        }),
+        body: JSON.stringify({ chat_id: `@${clean}` }),
       });
       const json = await res.json();
-      return json;
+      if (json.ok && json.result && json.result.id) {
+        return json.result.id;
+      }
+      return null;
+    };
+
+    const sendToTelegram = async (data) => {
+      const lines = [
+        '✿ Новая заявка с сайта',
+        '',
+        `Имя: ${data.name || '—'}`,
+        `Телефон: ${data.contact || '—'}`,
+        `Telegram: ${data.telegram || '—'}`,
+        `Тип съёмки: ${data.type || '—'}`,
+        `О себе: ${data.about || '—'}`,
+      ];
+      const text = lines.join('\n');
+
+      // 1) уведомление тебе
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const notify = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text }),
+      }).then(r => r.json());
+
+      // 2) приветствие клиенту (если указан telegram)
+      let clientReply = null;
+      if (data.telegram && data.telegram.trim()) {
+        try {
+          const clientChatId = await resolveUsernameToChatId(data.telegram);
+          if (clientChatId) {
+            clientReply = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: clientChatId,
+                text: CLIENT_GREETING,
+              }),
+            }).then(r => r.json());
+          } else {
+            clientReply = { ok: false, reason: 'username_not_resolved_or_not_started_bot' };
+          }
+        } catch (err) {
+          clientReply = { ok: false, error: String(err) };
+        }
+      }
+
+      return { notify, clientReply };
     };
 
     form.addEventListener('submit', async (e) => {
@@ -234,12 +281,20 @@
       }
 
       try {
-        const json = await sendToTelegram(data);
-        if (json.ok) {
-          showReply('Спасибо! ✿', 'Я&nbsp;свяжусь с&nbsp;вами в&nbsp;течение дня.');
+        const { notify, clientReply } = await sendToTelegram(data);
+        if (notify && notify.ok) {
+          let extra = '';
+          if (clientReply) {
+            if (clientReply.ok) {
+              extra = ' Бот написал вам приветствие в Telegram.';
+            } else {
+              extra = ' Бот не смог вам написать — скорее всего, вы не открыли @NadyaFamilyPhotoBot и не нажали Start. Это можно сделать в любой момент.';
+            }
+          }
+          showReply('Спасибо! ✿', 'Я&nbsp;свяжусь с&nbsp;вами в&nbsp;течение дня.' + extra);
           form.reset();
         } else {
-          console.error('Telegram API error:', json);
+          console.error('Telegram API error:', notify);
           showReply('Ошибка ✿', 'Не получилось отправить. Попробуйте позже или напишите в Telegram напрямую.');
         }
       } catch (err) {

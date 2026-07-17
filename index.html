@@ -399,8 +399,13 @@
               <span class="postcard-form__line" aria-hidden="true"></span>
             </label>
             <label class="postcard-form__field">
-              <span class="mono postcard-form__label">телефон или мессенджер</span>
-              <input type="text" name="contact" required class="handwritten" />
+              <span class="mono postcard-form__label">телефон</span>
+              <input type="text" name="contact" class="handwritten" placeholder="+375 …" />
+              <span class="postcard-form__line" aria-hidden="true"></span>
+            </label>
+            <label class="postcard-form__field">
+              <span class="mono postcard-form__label">telegram <span class="postcard-form__optional">— необязательно</span></span>
+              <input type="text" name="telegram" class="handwritten" placeholder="@username" />
               <span class="postcard-form__line" aria-hidden="true"></span>
             </label>
             <label class="postcard-form__field">
@@ -417,6 +422,13 @@
               <textarea name="about" rows="3" class="handwritten"></textarea>
               <span class="postcard-form__line" aria-hidden="true"></span>
             </label>
+
+            <p class="mono postcard-form__note">
+              Если укажете Telegram — бот напишет вам приветствие.
+              Перед этим откройте
+              <a href="https://t.me/NadyaFamilyPhotoBot" target="_blank" rel="noopener">@NadyaFamilyPhotoBot</a>
+              и&nbsp;нажмите Start.
+            </p>
 
             <div class="postcard-form__footer">
               <button type="submit" class="stamp-btn stamp-btn--filled postcard-form__send">
