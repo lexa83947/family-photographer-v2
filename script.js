@@ -170,7 +170,7 @@
         Отправляет заявку в Telegram-бот @NadyaFamilyPhotoBot
   --------------------------------------- */
   const TELEGRAM_BOT_TOKEN = '8904516188:AAFsIr88maaDSoRXp3MDj_sACjejeEWgGgw';
-  const TELEGRAM_CHAT_ID = '__SET_ME__'; // см. инструкцию в README
+  const TELEGRAM_CHAT_ID = '513123664'; // чат с Надей (Telegram)
 
   const form = document.querySelector('[data-form]');
   if (form) {
@@ -226,35 +226,9 @@
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
 
-      // вспомогательный режим: chat_id не заполнен — бот вернёт подсказку
       if (TELEGRAM_CHAT_ID === '__SET_ME__') {
-        console.warn('Telegram: TELEGRAM_CHAT_ID не заполнен. Открываю getUpdates...');
-        try {
-          const r = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`);
-          const j = await r.json();
-          console.log('getUpdates →', j);
-          const updates = j.result || [];
-          // ищем первый апдейт, где есть chat.id
-          let foundChatId = null;
-          for (const u of updates) {
-            const c = u.message?.chat || u.edited_message?.chat || u.my_chat_member?.chat;
-            if (c && c.id) { foundChatId = c.id; break; }
-          }
-          if (foundChatId) {
-            showReply(
-              'Почти готово! ✿',
-              `Ваш chat_id: <code>${foundChatId}</code> — подставьте в script.js и перезагрузите страницу.`
-            );
-          } else {
-            showReply(
-              'Бот подключён ✿',
-              'Напишите боту любое сообщение, обновите страницу и попробуйте снова.'
-            );
-          }
-        } catch (err) {
-          console.error('getUpdates error:', err);
-          showReply('Ошибка ✿', 'Не удалось связаться с ботом. Проверьте токен.');
-        }
+        console.error('Telegram: TELEGRAM_CHAT_ID не заполнен в script.js');
+        showReply('Техническая ошибка ✿', 'Попробуйте написать в Telegram напрямую — ссылка в контактах.');
         form.reset();
         return;
       }
@@ -271,15 +245,6 @@
       } catch (err) {
         console.error('Сеть:', err);
         showReply('Ошибка сети ✿', 'Проверьте подключение и попробуйте ещё раз.');
-      }
-
-      // совместимость со старой логикой Formspree, если когда-нибудь вернётся
-      if (hasRealEndpoint) {
-        fetch(action, {
-          method: 'POST',
-          headers: { 'Accept': 'application/json' },
-          body: new FormData(form),
-        }).catch((err) => console.error('Ошибка отправки:', err));
       }
     });
   }
