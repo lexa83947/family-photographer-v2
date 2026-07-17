@@ -167,45 +167,115 @@
 
   /* ---------------------------------------
      6) Форма — открытка «улетает»
+        Отправляет заявку в Telegram-бот @NadyaFamilyPhotoBot
   --------------------------------------- */
+  const TELEGRAM_BOT_TOKEN = '8904516188:AAFsIr88maaDSoRXp3MDj_sACjejeEWgGgw';
+  const TELEGRAM_CHAT_ID = '__SET_ME__'; // см. инструкцию в README
+
   const form = document.querySelector('[data-form]');
   if (form) {
     const action = (form.getAttribute('action') || '').trim();
     const hasRealEndpoint = /^https?:\/\//i.test(action)
       && !action.includes('your-form-id');
 
-    form.addEventListener('submit', (e) => {
+    const showReply = (title, text) => {
+      form.classList.add('is-sent');
+      const reply = document.createElement('div');
+      reply.className = 'postcard-reply';
+      reply.innerHTML = `
+        <p class="postcard-reply__title handwritten">${title}</p>
+        <p class="postcard-reply__text">${text}</p>
+      `;
+      form.parentElement.appendChild(reply);
+      requestAnimationFrame(() => reply.classList.add('is-visible'));
+      setTimeout(() => {
+        reply.classList.remove('is-visible');
+        setTimeout(() => reply.remove(), 600);
+      }, 8000);
+    };
+
+    const sendToTelegram = async (data) => {
+      const text = [
+        '✿ Новая заявка с сайта',
+        '',
+        `Имя: ${data.name || '—'}`,
+        `Контакт: ${data.contact || '—'}`,
+        `Тип съёмки: ${data.type || '—'}`,
+        `О себе: ${data.about || '—'}`,
+      ].join('\n');
+
+      const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text,
+        }),
+      });
+      const json = await res.json();
+      return json;
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = Object.fromEntries(new FormData(form).entries());
 
+      // вспомогательный режим: chat_id не заполнен — бот вернёт подсказку
+      if (TELEGRAM_CHAT_ID === '__SET_ME__') {
+        console.warn('Telegram: TELEGRAM_CHAT_ID не заполнен. Открываю getUpdates...');
+        try {
+          const r = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates`);
+          const j = await r.json();
+          console.log('getUpdates →', j);
+          const updates = j.result || [];
+          // ищем первый апдейт, где есть chat.id
+          let foundChatId = null;
+          for (const u of updates) {
+            const c = u.message?.chat || u.edited_message?.chat || u.my_chat_member?.chat;
+            if (c && c.id) { foundChatId = c.id; break; }
+          }
+          if (foundChatId) {
+            showReply(
+              'Почти готово! ✿',
+              `Ваш chat_id: <code>${foundChatId}</code> — подставьте в script.js и перезагрузите страницу.`
+            );
+          } else {
+            showReply(
+              'Бот подключён ✿',
+              'Напишите боту любое сообщение, обновите страницу и попробуйте снова.'
+            );
+          }
+        } catch (err) {
+          console.error('getUpdates error:', err);
+          showReply('Ошибка ✿', 'Не удалось связаться с ботом. Проверьте токен.');
+        }
+        form.reset();
+        return;
+      }
+
+      try {
+        const json = await sendToTelegram(data);
+        if (json.ok) {
+          showReply('Спасибо! ✿', 'Я&nbsp;свяжусь с&nbsp;вами в&nbsp;течение дня.');
+          form.reset();
+        } else {
+          console.error('Telegram API error:', json);
+          showReply('Ошибка ✿', 'Не получилось отправить. Попробуйте позже или напишите в Telegram напрямую.');
+        }
+      } catch (err) {
+        console.error('Сеть:', err);
+        showReply('Ошибка сети ✿', 'Проверьте подключение и попробуйте ещё раз.');
+      }
+
+      // совместимость со старой логикой Formspree, если когда-нибудь вернётся
       if (hasRealEndpoint) {
-        // реальная отправка на внешний endpoint (Formspree, Getform, свой бэкенд)
         fetch(action, {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
           body: new FormData(form),
         }).catch((err) => console.error('Ошибка отправки:', err));
-      } else {
-        // endpoint ещё не настроен — оставляем заглушку с логом
-        console.log('Письмо отправлено (заглушка, укажите action):', data);
       }
-
-      form.classList.add('is-sent');
-      // создаём «ответ» — маленькое письмо, прилетающее сверху
-      const reply = document.createElement('div');
-      reply.className = 'postcard-reply';
-      reply.innerHTML = `
-        <p class="postcard-reply__title handwritten">Спасибо! ✿</p>
-        <p class="postcard-reply__text">Я&nbsp;свяжусь с&nbsp;вами в&nbsp;течение дня.</p>
-      `;
-      form.parentElement.appendChild(reply);
-      // триггерим анимацию
-      requestAnimationFrame(() => reply.classList.add('is-visible'));
-      // очищаем через 8с (на случай повторной попытки после reload)
-      setTimeout(() => {
-        reply.classList.remove('is-visible');
-        setTimeout(() => reply.remove(), 600);
-      }, 8000);
     });
   }
 
