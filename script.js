@@ -179,6 +179,10 @@
       && !action.includes('your-form-id');
 
     const showReply = (title, text) => {
+      // убираем предыдущую открытку, если она ещё висит
+      const old = form.parentElement.querySelector('.postcard-reply');
+      if (old) old.remove();
+
       form.classList.add('is-sent');
       const reply = document.createElement('div');
       reply.className = 'postcard-reply';
@@ -188,10 +192,11 @@
       `;
       form.parentElement.appendChild(reply);
       requestAnimationFrame(() => reply.classList.add('is-visible'));
+      // 30 секунд — чтобы успеть прочитать chat_id
       setTimeout(() => {
         reply.classList.remove('is-visible');
         setTimeout(() => reply.remove(), 600);
-      }, 8000);
+      }, 30000);
     };
 
     const sendToTelegram = async (data) => {
