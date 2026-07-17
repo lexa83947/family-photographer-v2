@@ -52,7 +52,6 @@
       </a>
       <nav class="nav">
         <a href="#top">главная</a>
-        <a href="#about">обо мне</a>
         <a href="#portfolio">работы</a>
         <a href="#services">услуги</a>
         <a href="#reviews">отзывы</a>
@@ -66,16 +65,13 @@
 
   <main id="top">
 
-    <!-- О ФОТОГРАФЕ -->
-    <section id="about" class="section about">
+    <!-- ГЛАВНАЯ (фото + био) -->
+    <section id="home" class="section about">
       <div class="container about__inner">
         <figure class="about__photo">
           <span class="scotch scotch--top" aria-hidden="true"></span>
           <div class="about__polaroid">
             <img src="assets/photographer.jpg" alt="Надежда Банцаревич" />
-            <figcaption class="about__caption handwritten">
-              это&nbsp;я, 2026
-            </figcaption>
           </div>
           <aside class="about__stamp" aria-hidden="true">
             <span class="typewriter">№ 02 · SELF</span>
@@ -84,30 +80,29 @@
 
         <div class="about__text">
           <p class="eyebrow typewriter">— ОБО МНЕ —</p>
-          <h2 class="handwritten about__title">
+          <h1 class="handwritten about__title">
             привет, я&nbsp;Надя
             <span class="about__title-heart">✿</span>
-          </h2>
+          </h1>
           <div class="about__paragraphs">
             <p>
-              Я&nbsp;— семейный фотограф из&nbsp;Минска. Снимаю уже больше
-              пяти лет, и&nbsp;каждый раз убеждаюсь: самые ценные кадры&nbsp;— это
-              не&nbsp;«постановка», а&nbsp;настоящие мгновения между близкими людьми.
+              Семейный фотограф из&nbsp;Минска. Снимаю уже больше
+              трёх лет, и&nbsp;каждый раз убеждаюсь: самые ценные кадры&nbsp;— это
+              не&nbsp;постановка, а&nbsp;настоящие мгновения между близкими людьми.
             </p>
             <p>
               На&nbsp;моих съёмках спокойно и&nbsp;тепло. Я&nbsp;не&nbsp;тороплю,
-              не&nbsp;заставляю «улыбаться в&nbsp;камеру»&nbsp;— мы&nbsp;просто гуляем,
-              играем с&nbsp;детьми, обнимаемся. А&nbsp;я&nbsp;ловлю свет, эмоции
-              и&nbsp;вашу любовь.
+              не&nbsp;заставляю улыбаться в&nbsp;камеру&nbsp;— мы&nbsp;просто гуляем,
+              обнимаемся, общаемся, играем с&nbsp;детьми.
             </p>
           </div>
           <ul class="about__list">
             <li>
-              <span class="about__num handwritten">5+</span>
+              <span class="about__num handwritten">3+</span>
               <span class="mono">лет в семейной<br/>фотографии</span>
             </li>
             <li>
-              <span class="about__num handwritten">200+</span>
+              <span class="about__num handwritten">100+</span>
               <span class="mono">счастливых<br/>семей</span>
             </li>
             <li>
@@ -116,57 +111,6 @@
             </li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- HOME (бывший HERO) -->
-    <section id="home" class="section home">
-      <div class="container home__inner">
-        <div class="home__text">
-          <p class="home__kicker">
-            <span class="typewriter">ROLL · 24 · 36 КАДРОВ</span>
-          </p>
-          <h1 class="home__title handwritten">
-            фотографирую<br/>
-            <span class="home__title-accent">счастливые семьи</span>
-            <span class="home__title-heart">✿</span>
-          </h1>
-          <p class="home__lead">
-            Смешливая девчонка с&nbsp;фотоаппаратом. Снимаю так, чтобы через
-            десять лет вы&nbsp;открыли альбом&nbsp;— и&nbsp;сразу всё вспомнили:
-            как пахло яблоками, кто кого дразнил за&nbsp;обедом и&nbsp;как бабушка
-            хохотала, прикрывая рот ладонью.
-          </p>
-          <div class="home__actions">
-            <a href="#portfolio" class="stamp-btn stamp-btn--filled">
-              <span>смотреть работы</span>
-            </a>
-            <a href="#contacts" class="handwritten home__link">
-              записаться на&nbsp;съёмку →
-            </a>
-          </div>
-          <div class="home__meta mono">
-            <span>EST. 2021</span>
-            <span>·</span>
-            <span>MINSK · BELARUS</span>
-          </div>
-        </div>
-
-        <figure class="home__photo">
-          <span class="scotch scotch--tl" aria-hidden="true"></span>
-          <span class="scotch scotch--br" aria-hidden="true"></span>
-          <div class="home__polaroid home__polaroid--screenshot">
-            <img src="assets/home-screenshot.png" alt="Скриншот макета первого экрана" loading="eager" />
-            <figcaption class="home__caption handwritten">
-              макет&nbsp;·&nbsp;2026
-            </figcaption>
-          </div>
-          <aside class="stamp" aria-hidden="true">
-            <span class="stamp__circle">
-              KODACOLOR · 86 · EXPOSED
-            </span>
-          </aside>
-        </figure>
       </div>
     </section>
 
@@ -193,82 +137,66 @@
             <a href="assets/family-01.jpg" class="grid__item" data-lightbox data-rotate="-3.2" style="transform: rotate(-3.2deg);">
               <span class="grid__num mono">01</span>
               <img src="assets/family-01.jpg" alt="Семейное фото 1" loading="lazy" />
-              <span class="grid__caption handwritten">аня&nbsp;·&nbsp;3&nbsp;года</span>
             </a>
             <a href="assets/family-02.jpg" class="grid__item" data-lightbox data-rotate="2.1" style="transform: rotate(2.1deg);">
               <span class="grid__num mono">02</span>
               <img src="assets/family-02.jpg" alt="Семейное фото 2" loading="lazy" />
-              <span class="grid__caption handwritten">семья&nbsp;К.</span>
             </a>
             <a href="assets/family-03.jpg" class="grid__item" data-lightbox data-rotate="-1.4" style="transform: rotate(-1.4deg);">
               <span class="grid__num mono">03</span>
               <img src="assets/family-03.jpg" alt="Семейное фото 3" loading="lazy" />
-              <span class="grid__caption handwritten">утро&nbsp;·&nbsp;свет</span>
             </a>
             <a href="assets/family-04.jpg" class="grid__item" data-lightbox data-rotate="3" style="transform: rotate(3deg);">
               <span class="grid__num mono">04</span>
               <img src="assets/family-04.jpg" alt="Семейное фото 4" loading="lazy" />
-              <span class="grid__caption handwritten">объятия</span>
             </a>
             <a href="assets/family-05.jpg" class="grid__item" data-lightbox data-rotate="-2.5" style="transform: rotate(-2.5deg);">
               <span class="grid__num mono">05</span>
               <img src="assets/family-05.jpg" alt="Семейное фото 5" loading="lazy" />
-              <span class="grid__caption handwritten">смех</span>
             </a>
             <a href="assets/family-06.jpg" class="grid__item" data-lightbox data-rotate="1.7" style="transform: rotate(1.7deg);">
               <span class="grid__num mono">06</span>
               <img src="assets/family-06.jpg" alt="Семейное фото 6" loading="lazy" />
-              <span class="grid__caption handwritten">тишина</span>
             </a>
             <a href="assets/family-07.jpg" class="grid__item" data-lightbox data-rotate="-2" style="transform: rotate(-2deg);">
               <span class="grid__num mono">07</span>
               <img src="assets/family-07.jpg" alt="Семейное фото 7" loading="lazy" />
-              <span class="grid__caption handwritten">к&nbsp;бабушке</span>
             </a>
             <a href="assets/family-08.jpg" class="grid__item" data-lightbox data-rotate="2.8" style="transform: rotate(2.8deg);">
               <span class="grid__num mono">08</span>
               <img src="assets/family-08.jpg" alt="Семейное фото 8" loading="lazy" />
-              <span class="grid__caption handwritten">на&nbsp;руках</span>
             </a>
             <a href="assets/family-09.jpg" class="grid__item" data-lightbox data-rotate="-1.8" style="transform: rotate(-1.8deg);">
               <span class="grid__num mono">09</span>
               <img src="assets/family-09.jpg" alt="Семейное фото 9" loading="lazy" />
-              <span class="grid__caption handwritten">осень</span>
             </a>
             <a href="assets/family-10.jpg" class="grid__item" data-lightbox data-rotate="1.2" style="transform: rotate(1.2deg);">
               <span class="grid__num mono">10</span>
               <img src="assets/family-10.jpg" alt="Семейное фото 10" loading="lazy" />
-              <span class="grid__caption handwritten">закат</span>
             </a>
             <a href="assets/family-11.jpg" class="grid__item" data-lightbox data-rotate="-3" style="transform: rotate(-3deg);">
               <span class="grid__num mono">11</span>
               <img src="assets/family-11.jpg" alt="Семейное фото 11" loading="lazy" />
-              <span class="grid__caption handwritten">первые&nbsp;шаги</span>
             </a>
             <a href="assets/family-12.jpg" class="grid__item" data-lightbox data-rotate="2.4" style="transform: rotate(2.4deg);">
               <span class="grid__num mono">12</span>
               <img src="assets/family-12.jpg" alt="Семейное фото 12" loading="lazy" />
-              <span class="grid__caption handwritten">вдвоём</span>
             </a>
             <a href="assets/family-13.jpg" class="grid__item" data-lightbox data-rotate="-1.6" style="transform: rotate(-1.6deg);">
               <span class="grid__num mono">13</span>
               <img src="assets/family-13.jpg" alt="Семейное фото 13" loading="lazy" />
-              <span class="grid__caption handwritten">лето</span>
             </a>
             <a href="assets/family-14.jpg" class="grid__item" data-lightbox data-rotate="2" style="transform: rotate(2deg);">
               <span class="grid__num mono">14</span>
               <img src="assets/family-14.jpg" alt="Семейное фото 14" loading="lazy" />
-              <span class="grid__caption handwritten">пикник</span>
             </a>
             <a href="assets/family-15.jpg" class="grid__item" data-lightbox data-rotate="-2.7" style="transform: rotate(-2.7deg);">
               <span class="grid__num mono">15</span>
               <img src="assets/family-15.jpg" alt="Семейное фото 15" loading="lazy" />
-              <span class="grid__caption handwritten">мама</span>
             </a>
             <a href="assets/family-16.jpg" class="grid__item" data-lightbox data-rotate="1.5" style="transform: rotate(1.5deg);">
               <span class="grid__num mono">16</span>
               <img src="assets/family-16.jpg" alt="Семейное фото 16" loading="lazy" />
-              <span class="grid__caption handwritten">вместе</span>
             </a>
           </div>
         </div>
@@ -304,12 +232,11 @@
             </p>
             <ul class="ticket__list">
               <li><span class="ticket__bullet">✿</span> Длительность: 1–1,5&nbsp;часа</li>
-              <li><span class="ticket__bullet">✿</span> 30&nbsp;фото в&nbsp;авторской обработке</li>
+              <li><span class="ticket__bullet">✿</span> 70&nbsp;фото в&nbsp;авторской обработке</li>
               <li><span class="ticket__bullet">✿</span> Помощь с&nbsp;образом и&nbsp;локацией</li>
             </ul>
             <p class="ticket__price">
-              <span class="handwritten ticket__price-from">от</span>
-              <span class="handwritten" data-price="family">—</span>
+              <span class="handwritten" data-price="family">300</span>
               <span class="mono ticket__price-cur">BYN</span>
             </p>
             <a href="#contacts" class="stamp-btn ticket__cta">
@@ -329,49 +256,22 @@
               <span class="stamp stamp--inline">№ 02</span>
               <span class="mono ticket__date">VALID · 2026</span>
             </header>
-            <h3 class="handwritten ticket__title">детская съёмка</h3>
+            <h3 class="handwritten ticket__title">женский портрет</h3>
             <p class="ticket__desc">
-              Дни рождения, «первый зуб», первые шаги&nbsp;— ловлю момент,
-              пока ребёнок ещё совсем маленький.
+              Тёплый свет, спокойный ритм и&nbsp;внимание к&nbsp;тебе.
+              Снимаю так, чтобы ты&nbsp;увидела себя настоящую&nbsp;— без напряжения
+              и&nbsp;«постановочной» улыбки.
             </p>
             <ul class="ticket__list">
               <li><span class="ticket__bullet">✿</span> Длительность: 1&nbsp;час</li>
-              <li><span class="ticket__bullet">✿</span> 25&nbsp;фото в&nbsp;авторской обработке</li>
-              <li><span class="ticket__bullet">✿</span> Возможна съёмка дома</li>
+              <li><span class="ticket__bullet">✿</span> 50&nbsp;фото в&nbsp;авторской обработке</li>
+              <li><span class="ticket__bullet">✿</span> Помощь с&nbsp;образом и&nbsp;локацией</li>
             </ul>
             <p class="ticket__price">
-              <span class="handwritten ticket__price-from">от</span>
-              <span class="handwritten" data-price="kids">—</span>
+              <span class="handwritten" data-price="women">250</span>
               <span class="mono ticket__price-cur">BYN</span>
             </p>
             <a href="#contacts" class="stamp-btn stamp-btn--filled ticket__cta">
-              <span>записаться</span>
-            </a>
-          </article>
-
-          <article class="ticket">
-            <span class="ticket__corner-tl" aria-hidden="true"></span>
-            <span class="ticket__corner-br" aria-hidden="true"></span>
-            <header class="ticket__head">
-              <span class="stamp stamp--inline">№ 03</span>
-              <span class="mono ticket__date">VALID · 2026</span>
-            </header>
-            <h3 class="handwritten ticket__title">в&nbsp;ожидании чуда</h3>
-            <p class="ticket__desc">
-              Нежная съёмка для будущих мам. Тёплый свет, спокойствие
-              и&nbsp;фотографии, к&nbsp;которым хочется возвращаться.
-            </p>
-            <ul class="ticket__list">
-              <li><span class="ticket__bullet">✿</span> Длительность: 1&nbsp;час</li>
-              <li><span class="ticket__bullet">✿</span> 20&nbsp;фото в&nbsp;авторской обработке</li>
-              <li><span class="ticket__bullet">✿</span> Платья и&nbsp;реквизит в&nbsp;подарок</li>
-            </ul>
-            <p class="ticket__price">
-              <span class="handwritten ticket__price-from">от</span>
-              <span class="handwritten" data-price="pregnancy">—</span>
-              <span class="mono ticket__price-cur">BYN</span>
-            </p>
-            <a href="#contacts" class="stamp-btn ticket__cta">
               <span>записаться</span>
             </a>
           </article>
@@ -464,9 +364,9 @@
               </a>
             </li>
             <li class="sticker">
-              <span class="mono sticker__label">EMAIL</span>
-              <a href="mailto:nadya124@inbox.ru" class="handwritten sticker__value" data-email>
-                nadya124@inbox.ru
+              <span class="mono sticker__label">TELEGRAM</span>
+              <a href="https://t.me/Nadya_Bantsarevich" target="_blank" rel="noopener" class="handwritten sticker__value" data-telegram>
+                @Nadya_Bantsarevich
               </a>
             </li>
             <li class="sticker">
@@ -507,14 +407,13 @@
               <span class="mono postcard-form__label">какая съёмка интересует?</span>
               <select name="type" class="handwritten">
                 <option>Семейная</option>
-                <option>Детская</option>
-                <option>«В ожидании чуда»</option>
+                <option>Женский портрет</option>
                 <option>Другая идея</option>
               </select>
               <span class="postcard-form__line" aria-hidden="true"></span>
             </label>
             <label class="postcard-form__field">
-              <span class="mono postcard-form__label">коротко о вашей семье</span>
+              <span class="mono postcard-form__label">коротко о&nbsp;вашей истории</span>
               <textarea name="about" rows="3" class="handwritten"></textarea>
               <span class="postcard-form__line" aria-hidden="true"></span>
             </label>
