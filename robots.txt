@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://taupe-brioche-7aad5d.netlify.app/sitemap.xml

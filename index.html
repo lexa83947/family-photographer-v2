@@ -10,18 +10,29 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%233a4a2e'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='62' font-weight='700' fill='%23f4e9d4' text-anchor='middle'%3EН%3C/text%3E%3C/svg%3E" />
 
-  <!-- Open Graph / Facebook -->
+  <!-- Canonical — основной URL сайта (на случай если будут зеркала) -->
+  <link rel="canonical" href="https://taupe-brioche-7aad5d.netlify.app/" />
+
+  <!-- Open Graph / Facebook / Telegram / VK / WhatsApp -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Надя Банцаревич — семейный фотограф" />
+  <meta property="og:url" content="https://taupe-brioche-7aad5d.netlify.app/" />
   <meta property="og:title" content="Надя ✿ семейный фотограф · Минск" />
-  <meta property="og:description" content="Семейный фотограф в Минске. Плёночная, тёплая, настоящая фотография." />
-  <meta property="og:image" content="https://taupe-brioche-7aad5d.netlify.app/assets/photographer.jpg" />
+  <meta property="og:description" content="Семейный фотограф в Минске. Плёночная, тёплая, настоящая фотография. Надежда Банцаревич." />
+  <meta property="og:image" content="https://taupe-brioche-7aad5d.netlify.app/assets/og-image.jpg" />
+  <meta property="og:image:secure_url" content="https://taupe-brioche-7aad5d.netlify.app/assets/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Надя — семейный фотограф в Минске" />
   <meta property="og:locale" content="ru_RU" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Надя ✿ семейный фотограф · Минск" />
   <meta name="twitter:description" content="Семейный фотограф в Минске. Плёночная, тёплая, настоящая фотография." />
-  <meta name="twitter:image" content="https://taupe-brioche-7aad5d.netlify.app/assets/photographer.jpg" />
+  <meta name="twitter:image" content="https://taupe-brioche-7aad5d.netlify.app/assets/og-image.jpg" />
+  <meta name="twitter:image:alt" content="Надя — семейный фотограф в Минске" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -552,5 +563,44 @@
   </div>
 
   <script src="script.js"></script>
+
+  <!-- Schema.org LocalBusiness — микроразметка для Google.
+       Помогает поисковику понять, что это бизнес (адрес, контакты, услуги),
+       и потенциально показывать в расширенных сниппетах. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": "https://taupe-brioche-7aad5d.netlify.app/#business",
+    "name": "Надежда Банцаревич — семейный фотограф",
+    "alternateName": "Надя ✿ семейный фотограф",
+    "description": "Семейный и женский фотограф в Минске. Плёночная, тёплая, настоящая фотография.",
+    "url": "https://taupe-brioche-7aad5d.netlify.app/",
+    "image": "https://taupe-brioche-7aad5d.netlify.app/assets/og-image.jpg",
+    "logo": "https://taupe-brioche-7aad5d.netlify.app/assets/photographer.jpg",
+    "telephone": "+375445383406",
+    "email": "nadya124@inbox.ru",
+    "priceRange": "250–300 BYN",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Минск",
+      "addressCountry": "BY"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Минск"
+    },
+    "sameAs": [
+      "https://t.me/Nadya_Bantsarevich",
+      "https://instagram.com/nadya.bantsarevich"
+    ],
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "09:00",
+      "closes": "21:00"
+    }
+  }
+  </script>
 </body>
 </html>
