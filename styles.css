@@ -16,8 +16,8 @@
   --card:     #F7EFDD;
   --ink:      #3A2E1F;
   --ink-soft: #6B5B43;
-  --stamp:    #B8472A;
-  --olive:    #7A6A4D;
+  --stamp:    #A33D24;  /* затемнён с #B8472A для контраста 4.5:1+ */
+  --olive:    #5C4F36;  /* затемнён с #7A6A4D для контраста 4.5:1+ */
   --polaroid: #FAF5E8;
 
   --font-hand: 'Caveat Brush', cursive;
@@ -58,6 +58,34 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 input, textarea, select { font: inherit; color: inherit; background: transparent; border: none; outline: none; }
+
+/* ===== Skip-link (a11y) ===== */
+.skip-link {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 2px;
+  z-index: 9999;
+  transform: translateY(-200%);
+  transition: transform .2s ease;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.skip-link:focus,
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid var(--stamp);
+  outline-offset: 2px;
+}
+
+/* Убираем outline у кликов, но оставляем для клавиатуры */
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--stamp); outline-offset: 3px; border-radius: 2px; }
 
 /* ===== ШУМ СТАРОЙ БУМАГИ ===== */
 .paper-noise {
@@ -383,6 +411,8 @@ input, textarea, select { font: inherit; color: inherit; background: transparent
 }
 .nav a:hover { color: var(--stamp); }
 .nav a:hover::after { transform: scaleX(1); }
+.nav a[aria-current="page"] { color: var(--stamp); }
+.nav a[aria-current="page"]::after { transform: scaleX(1); }
 
 @media (max-width: 900px) {
   .nav { display: none; }

@@ -30,6 +30,8 @@
 </head>
 <body>
 
+  <a href="#main" class="skip-link">Перейти к&nbsp;содержимому</a>
+
   <!-- ПЛЁНОЧНАЯ ПЕРФОРАЦИЯ СВЕРХУ -->
   <aside class="filmstrip filmstrip--top" aria-hidden="true">
     <svg viewBox="0 0 1200 24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -46,12 +48,12 @@
   <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
-      <a href="#top" class="logo">
+      <a href="#main" class="logo" aria-label="На главную — Надя, семейный фотограф">
         <span class="logo__name">Надя <span class="logo__heart">✿</span></span>
         <span class="logo__sub">семейный фотограф · минск</span>
       </a>
-      <nav class="nav">
-        <a href="#top">главная</a>
+      <nav class="nav" aria-label="Основная навигация">
+        <a href="#main">главная</a>
         <a href="#portfolio">работы</a>
         <a href="#services">услуги</a>
         <a href="#reviews">отзывы</a>
@@ -63,7 +65,7 @@
     </div>
   </header>
 
-  <main id="top">
+  <main id="main" tabindex="-1">
 
     <!-- ГЛАВНАЯ (фото + био) -->
     <section id="home" class="section about">
@@ -484,12 +486,12 @@
   <aside class="filmstrip filmstrip--bottom" aria-hidden="true"></aside>
 
   <!-- LIGHTBOX -->
-  <div class="lightbox" data-lightbox-root hidden>
+  <div class="lightbox" data-lightbox-root hidden role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
     <button class="lightbox__close handwritten" data-lightbox-close aria-label="Закрыть">закрыть ×</button>
-    <button class="lightbox__nav" data-lightbox-prev aria-label="Предыдущее">‹</button>
+    <button class="lightbox__nav" data-lightbox-prev aria-label="Предыдущее фото">‹</button>
     <img class="lightbox__img" data-lightbox-img alt="" />
-    <button class="lightbox__nav" data-lightbox-next aria-label="Следующее">›</button>
-    <p class="lightbox__counter mono"></p>
+    <button class="lightbox__nav" data-lightbox-next aria-label="Следующее фото">›</button>
+    <p class="lightbox__counter mono" aria-live="polite"></p>
   </div>
 
   <script src="script.js"></script>

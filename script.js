@@ -70,6 +70,12 @@
   const btnPrev = root ? root.querySelector('[data-lightbox-prev]') : null;
   const btnNext = root ? root.querySelector('[data-lightbox-next]') : null;
   let current = -1;
+  let lastFocused = null;  // элемент, на котором был фокус до открытия
+
+  const getFocusable = () => {
+    if (!root) return [];
+    return [btnClose, btnPrev, btnNext].filter(Boolean);
+  };
 
   const updateCounter = () => {
     if (!counterEl) return;
@@ -82,9 +88,12 @@
     const src = items[i].getAttribute('href');
     imgEl.src = src;
     imgEl.alt = items[i].querySelector('img')?.alt || '';
+    lastFocused = document.activeElement;
     root.hidden = false;
     document.body.style.overflow = 'hidden';
     updateCounter();
+    // фокус на кнопку закрытия (самый «безопасный» старт)
+    requestAnimationFrame(() => btnClose && btnClose.focus());
   };
   const close = () => {
     if (!root) return;
@@ -92,6 +101,10 @@
     imgEl.src = '';
     current = -1;
     document.body.style.overflow = '';
+    // вернуть фокус туда, откуда открыли
+    if (lastFocused && typeof lastFocused.focus === 'function') {
+      lastFocused.focus();
+    }
   };
   const prev = () => openAt((current - 1 + items.length) % items.length);
   const next = () => openAt((current + 1) % items.length);
@@ -108,9 +121,23 @@
 
   document.addEventListener('keydown', (e) => {
     if (root && !root.hidden) {
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowLeft') prev();
-      if (e.key === 'ArrowRight') next();
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); return; }
+      if (e.key === 'ArrowRight') { e.preventDefault(); next(); return; }
+      // focus-trap: зацикливаем Tab/Shift+Tab внутри лайтбокса
+      if (e.key === 'Tab') {
+        const focusable = getFocusable();
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     }
   });
   if (root) {
@@ -313,6 +340,11 @@
         if (t) {
           e.preventDefault();
           t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // для skip-link — перевести фокус на цель ПОСЛЕ прокрутки,
+          // иначе scrollIntoView сбрасывает фокус на body
+          if (a.classList.contains('skip-link')) {
+            requestAnimationFrame(() => t.focus({ preventScroll: true }));
+          }
         }
       }
     });
@@ -327,5 +359,76 @@
     logo.addEventListener('click', (e) => {
       document.body.classList.toggle('show-dates');
     });
+  }
+
+  /* ---------------------------------------
+     9) Активная вкладка в навигации (aria-current)
+        — подсвечиваем ссылку, чей раздел сейчас в зоне видимости
+  --------------------------------------- */
+  const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+  const sectionMap = new Map();
+  const mainLink = Array.from(navLinks).find((a) => a.getAttribute('href') === '#main');
+  navLinks.forEach((a) => {
+    const id = a.getAttribute('href');
+    if (id && id.length > 1) {
+      const sec = document.querySelector(id);
+      if (sec) sectionMap.set(sec, a);
+    }
+  });
+
+  if ('IntersectionObserver' in window && sectionMap.size) {
+    // Каждый раз пересчитываем заново: какая секция сейчас больше всего
+    // пересекается с «активной зоной» (верхняя треть экрана).
+    // IntersectionObserver используем как «толчок», а логику считаем
+    // вручную по getBoundingClientRect — это устойчиво к любому
+    // порядку и частote callback'ов.
+    const updateActive = () => {
+      const top = 70;
+      const bottom = window.innerHeight * 0.45;
+      let best = null;
+      let bestVisible = 0;
+      // <main> оборачивает все секции, и его видимость в активной зоне
+      // не означает «мы на главной» — внутри лежат и портфолио, и услуги
+      sectionMap.forEach((_, sec) => {
+        if (sec.tagName === 'MAIN') return;
+        const r = sec.getBoundingClientRect();
+        const visible = Math.max(0, Math.min(r.bottom, bottom) - Math.max(r.top, top));
+        if (visible > bestVisible) {
+          bestVisible = visible;
+          best = sec;
+        }
+      });
+      if (!best || bestVisible === 0) {
+        // ничего не пересекается — мы выше первой секции, активна «главная»
+        if (mainLink) {
+          navLinks.forEach((a) => a.removeAttribute('aria-current'));
+          mainLink.setAttribute('aria-current', 'page');
+        }
+        return;
+      }
+      navLinks.forEach((a) => a.removeAttribute('aria-current'));
+      const link = sectionMap.get(best);
+      if (link) link.setAttribute('aria-current', 'page');
+    };
+
+    // 1) IntersectionObserver — реагирует на появление/исчезновение
+    const navObserver = new IntersectionObserver(updateActive, {
+      rootMargin: '0px',
+      threshold: [0, 0.01, 0.5, 1],
+    });
+    sectionMap.forEach((_, sec) => navObserver.observe(sec));
+
+    // 2) scroll event (throttled через rAF) — реагирует на сам скролл,
+    // потому что observer не всегда вызывается при программной прокрутке
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateActive();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
   }
 })();
