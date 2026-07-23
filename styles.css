@@ -451,6 +451,7 @@ input, textarea, select { font: inherit; color: inherit; background: transparent
   gap: 80px;
   align-items: center;
 }
+.about__inner > * { min-width: 0; } /* фикс: грид-колонка не разъезжается из-за min-content картинки */
 .about__photo {
   position: relative;
   display: inline-block;
@@ -1358,6 +1359,55 @@ input, textarea, select { font: inherit; color: inherit; background: transparent
   background: var(--polaroid);
   padding: 2px 5px;
   z-index: 3;
+}
+
+/* ===== Мобильные фиксы (День 9) =====
+   Чтобы на 360px не было горизонтального скролла. */
+@media (max-width: 700px) {
+  /* Круглый штамп в about-секции торчит за краем
+     (right: -30px) — на узких экранах прячем обратно. */
+  .stamp-circle {
+    right: 10px;
+    top: 10px;
+    width: 96px;
+    height: 96px;
+  }
+  .stamp-circle__inner {
+    width: 74px;
+    height: 74px;
+  }
+
+  /* 3 цифры «3+», «100+», «минск» не помещаются в 3 колонки
+     на 360px — перестраиваем в 1 столбец по центру. */
+  .about__list {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: center;
+  }
+  .about__list li {
+    align-items: center;
+  }
+
+  /* Билеты: убираем max-width, чтобы 1 билет занимал всю ширину. */
+  .ticket { max-width: 100%; flex: 1 1 100%; }
+
+  /* Поляроид с transform: rotate добавляет ~1-2px к bounding box,
+     из-за чего в landscape может появиться горизонтальный скролл. */
+  .about__polaroid { transform: rotate(0); }
+}
+
+@media (max-width: 900px) {
+  /* На планшетах и мобиле уменьшаем штамп, чтобы не перекрывал контент. */
+  .about__photo .stamp-circle {
+    right: -8px;
+    top: -8px;
+    width: 110px;
+    height: 110px;
+  }
+  .about__photo .stamp-circle__inner {
+    width: 84px;
+    height: 84px;
+  }
 }
 
 /* ===== Reduced motion ===== */
