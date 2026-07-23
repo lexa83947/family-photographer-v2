@@ -85,14 +85,18 @@
   const openAt = (i) => {
     if (!root || !imgEl || i < 0 || i >= items.length) return;
     current = i;
-    const src = items[i].getAttribute('href');
-    imgEl.src = src;
+    // пробуем сначала href (WebP), при ошибке — fallback на data-jpg (оригинальный JPG)
+    const webpSrc = items[i].getAttribute('href');
+    const jpgSrc = items[i].getAttribute('data-jpg') || webpSrc;
+    imgEl.onerror = () => {
+      if (imgEl.src !== jpgSrc) imgEl.src = jpgSrc;
+    };
+    imgEl.src = webpSrc;
     imgEl.alt = items[i].querySelector('img')?.alt || '';
     lastFocused = document.activeElement;
     root.hidden = false;
     document.body.style.overflow = 'hidden';
     updateCounter();
-    // фокус на кнопку закрытия (самый «безопасный» старт)
     requestAnimationFrame(() => btnClose && btnClose.focus());
   };
   const close = () => {
