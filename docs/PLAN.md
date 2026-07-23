@@ -266,7 +266,7 @@
 ### Неделя 2
 - [x] День 6 — WebP + lazy load
 - [x] День 7 — шрифты (preload, swap)
-- [ ] День 8 — Open Graph + SEO
+- [x] День 8 — Open Graph + SEO
 - [ ] День 9 — мобильная + кросс-браузер
 - [ ] День 10 — Lighthouse + QA
 - [ ] Дни 11–12 — buffer / фиксы
