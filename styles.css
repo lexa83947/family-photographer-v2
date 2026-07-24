@@ -764,15 +764,18 @@ input, textarea, select { font: inherit; color: inherit; background: transparent
   color: var(--polaroid);
 }
 .ticket--featured .ticket__title { color: var(--polaroid); }
-.ticket--featured .ticket__desc { color: rgba(250, 245, 232, 0.78); }
-.ticket--featured .ticket__list li { color: rgba(250, 245, 232, 0.85); }
-.ticket--featured .ticket__list { border-color: rgba(250, 245, 232, 0.25); }
-.ticket--featured .ticket__head { border-color: rgba(250, 245, 232, 0.25); }
-.ticket--featured .ticket__date { color: rgba(250, 245, 232, 0.55); }
+.ticket--featured .ticket__desc { color: rgba(250, 245, 232, 0.85); }
+.ticket--featured .ticket__list li { color: rgba(250, 245, 232, 0.9); }
+.ticket--featured .ticket__list { border-color: rgba(250, 245, 232, 0.3); }
+.ticket--featured .ticket__head { border-color: rgba(250, 245, 232, 0.3); }
+.ticket--featured .ticket__date { color: rgba(250, 245, 232, 0.65); }
 .ticket--featured .ticket__price-from,
-.ticket--featured .ticket__price-cur { color: rgba(250, 245, 232, 0.7); }
-.ticket--featured .ticket__price span[data-price] { color: var(--stamp); }
-.ticket--featured .ticket__bullet { color: var(--stamp); }
+.ticket--featured .ticket__price-cur { color: rgba(250, 245, 232, 0.75); }
+/* на тёмном фоне featured-билета stamp-цвет не проходит контраст —
+   используем светлый поляроидный. */
+.ticket--featured .stamp { color: var(--polaroid); border-color: var(--polaroid); }
+.ticket--featured .ticket__price span[data-price] { color: var(--polaroid); }
+.ticket--featured .ticket__bullet { color: var(--polaroid); }
 .ticket--featured .ticket__corner-tl,
 .ticket--featured .ticket__corner-br {
   border-color: rgba(250, 245, 232, 0.4);

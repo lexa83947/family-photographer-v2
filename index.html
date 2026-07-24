@@ -42,7 +42,12 @@
        EB Garamond 400 regular: кириллический subset для основного текста. -->
   <link rel="preload" as="font" type="font/woff" href="https://fonts.gstatic.com/s/caveat/v23/WnznHAc5bAfYB2QRah7pcpNvOx-pjRV6eIGpZz5Kmgq3s84t.woff" crossorigin />
   <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/ebgaramond/v33/SlGWmQSNjdsmc35JDF1K5GRweD81ZyHKpWiGIg.woff2" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Google Fonts CSS: не render-blocking.
+       Грузим с media="print" (не применяется), потом JS переключает на all.
+       Preload шрифтов выше уже дал браузеру файлы; CSS нужен только для @font-face. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Special+Elite&family=IBM+Plex+Mono:wght@400;500&display=swap" /></noscript>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -65,7 +70,7 @@
   <!-- HEADER -->
   <header class="header">
     <div class="container header__inner">
-      <a href="#main" class="logo" aria-label="На главную — Надя, семейный фотограф">
+      <a href="#main" class="logo">
         <span class="logo__name">Надя <span class="logo__heart">✿</span></span>
         <span class="logo__sub">семейный фотограф · минск</span>
       </a>
@@ -91,7 +96,8 @@
           <span class="scotch scotch--top" aria-hidden="true"></span>
           <div class="about__polaroid">
             <picture>
-              <source srcset="assets/photographer.webp" type="image/webp" />
+              <source type="image/webp" srcset="assets/photographer-480.webp 480w, assets/photographer.webp 853w" sizes="(max-width: 700px) 320px, 480px" />
+              <source type="image/jpeg" srcset="assets/photographer-480.jpg 480w, assets/photographer.jpg 853w" sizes="(max-width: 700px) 320px, 480px" />
               <img src="assets/photographer.jpg" alt="Надежда Банцаревич" width="640" height="853" decoding="async" />
             </picture>
           </div>
@@ -562,7 +568,7 @@
     <p class="lightbox__counter mono" aria-live="polite"></p>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.min.js" defer></script>
 
   <!-- Schema.org LocalBusiness — микроразметка для Google.
        Помогает поисковику понять, что это бизнес (адрес, контакты, услуги),
